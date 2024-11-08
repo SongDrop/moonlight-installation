@@ -64,8 +64,9 @@ function install_packages() {
         libxi-dev
         libxrandr-dev
         mesa-utils
-        libopus-dev  # Added Opus for audio encoding support
-        libevdev-dev  # Added libevdev for input device handling support
+        libopus-dev   
+        libevdev-dev   
+        libavahi-client-dev   
     )
 
     for package in "${packages[@]}"; do
