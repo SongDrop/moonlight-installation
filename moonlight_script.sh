@@ -20,6 +20,21 @@ function install_dependencies() {
         pkg-config
         git
         cmake  # You can comment this out if you prefer not to install CMake
+        libopus-dev
+        libevdev-dev
+        libavahi-client-dev
+        libasound2-dev
+        libudev-dev
+        libexpat1-dev
+        libpulse-dev
+        uuid-dev
+        libavcodec-dev
+        libavutil-dev
+        libvdpau-dev
+        libva-dev
+        libsdl2-dev
+        libcec-dev
+        libraspberrypi-dev  # If using Raspberry Pi hardware (comment this out for non-Pi systems)
     )
 
     for dependency in "${dependencies[@]}"; do
@@ -64,9 +79,12 @@ function install_packages() {
         libxi-dev
         libxrandr-dev
         mesa-utils
-        libopus-dev   
-        libevdev-dev   
-        libavahi-client-dev   
+        libopus-dev
+        libevdev-dev
+        libavahi-client-dev
+        libexpat1-dev
+        libpulse-dev
+        uuid-dev
     )
 
     for package in "${packages[@]}"; do
@@ -81,7 +99,7 @@ function install_packages() {
 # Function to clone and build Moonlight
 function build_moonlight() {
     echo "Cloning Moonlight Embedded repository..."
-    if ! git clone --recursive https://github.com/irtimmer/moonlight-embedded.git; then
+    if ! git clone --recursive https://github.com/moonlight-stream/moonlight-embedded.git; then
         echo "Failed to clone the Moonlight repository. Please check your internet connection."
         exit 1
     fi
@@ -103,18 +121,6 @@ function build_moonlight() {
     sudo make install
 }
 
-# Clean up
-function cleanup() {
-    echo "No cleanup needed; everything is in place."
-}
-
-# Optional: Install xpad for Xbox controller support
-function install_xpad() {
-    echo "Installing xpad for controller support..."
-    if ! sudo apt install -y xserver-xorg-input-xpad; then
-        echo "xserver-xorg-input-xpad installation failed. Please install it manually."
-    fi
-}
 
 # Main script execution
 
@@ -127,11 +133,6 @@ install_packages
 # Build Moonlight
 build_moonlight
 
-# Optional: Install xpad for controller support
-install_xpad
-
-# Clean up
-cleanup
 
 # Final instructions
 echo "Moonlight Embedded installation complete!"
