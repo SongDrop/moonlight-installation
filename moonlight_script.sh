@@ -34,7 +34,6 @@ function install_dependencies() {
         libva-dev
         libsdl2-dev
         libcec-dev
-        libraspberrypi-dev  # If using Raspberry Pi hardware (comment this out for non-Pi systems)
     )
 
     for dependency in "${dependencies[@]}"; do
