@@ -6,10 +6,10 @@ set -e
 # Function to install required dependencies
 function install_dependencies() {
     echo "Updating package list..."
-    sudo apt update
+    sudo apt update -y
 
     echo "Installing necessary dependencies for APT..."
-    
+
     # Install required packages for APT build
     declare -a dependencies=(
         build-essential
@@ -28,16 +28,16 @@ function install_dependencies() {
     done
 }
 
-# Function to install packages with error handling
+# Function to install packages with error handling and automatic confirmation
 function install_packages() {
-    echo "Updating the system..."
+    echo "Updating the system and preparing to install additional packages..."
 
     if ! command -v apt &> /dev/null; then
         echo "APT is not available. Please install it manually."
         exit 1
     fi
 
-    sudo apt update
+    sudo apt update -y
 
     declare -a packages=(
         make
@@ -47,20 +47,21 @@ function install_packages() {
         libavformat-dev
         libavutil-dev
         libboost-dev
-        libcurl-dev
-        glib2-dev
-        mesa-libGLES-dev
+        libcurl4-openssl-dev
+        libglib2.0-dev
+        libgles2-mesa-dev
         libjpeg-dev
-        jsoncpp-dev
+        libjsoncpp-dev
         libsdl2-dev
-        libX11-dev
-        libXext-dev
+        libx11-dev
+        libxext-dev
         pkg-config
         python3-dev
-        qt5-qtbase-dev
+        qtbase5-dev
         libxi-dev
-        libXrandr-dev
+        libxrandr-dev
         mesa-utils
+        libopus-dev  # Added Opus for audio encoding support
     )
 
     for package in "${packages[@]}"; do
@@ -105,7 +106,6 @@ function build_moonlight() {
 function cleanup() {
     echo "Cleaning up..."
     cd ../../
-    rm -rf moonlight-embedded
 }
 
 # Optional: Install xpad for Xbox controller support
