@@ -24,7 +24,10 @@ function install_dependencies() {
 
     for dependency in "${dependencies[@]}"; do
         echo "Installing $dependency..."
-        sudo apt install -y "$dependency"
+        sudo apt install -y "$dependency" || {
+            echo "$dependency installation failed. Exiting."
+            exit 1
+        }
     done
 }
 
@@ -62,18 +65,15 @@ function install_packages() {
         libxrandr-dev
         mesa-utils
         libopus-dev  # Added Opus for audio encoding support
+        libevdev-dev  # Added libevdev for input device handling support
     )
 
     for package in "${packages[@]}"; do
         echo "Installing $package..."
-        if ! sudo apt install -y "$package"; then
-            echo "$package installation failed. Please install it manually."
-            read -p "Do you want to continue? (y/n): " choice
-            if [[ "$choice" != "y" ]]; then
-                echo "Exiting the script."
-                exit 1
-            fi
-        fi
+        sudo apt install -y "$package" || {
+            echo "$package installation failed. Exiting."
+            exit 1
+        }
     done
 }
 
@@ -104,8 +104,7 @@ function build_moonlight() {
 
 # Clean up
 function cleanup() {
-    echo "Cleaning up..."
-    cd ../../
+    echo "No cleanup needed; everything is in place."
 }
 
 # Optional: Install xpad for Xbox controller support
